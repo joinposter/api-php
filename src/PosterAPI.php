@@ -36,7 +36,7 @@ class PosterAPI {
     }
 }
 
-/
+
 class PosterAPICore {
 	const VERSION = "0.1";
 
@@ -55,7 +55,7 @@ class PosterAPICore {
 	public $user_agent = '';
 
 	private $config_keys = array('application_id', 'application_secret', 'redirect_uri', 
-		'account_name', 'access_token', 'user_agent');
+		'account_name', 'access_token', 'user_agent', 'base_api_url', 'account_api_url');
 
 	private $curl_ipresolve_supported;
 	private $last_request_http_code;
@@ -76,7 +76,7 @@ class PosterAPICore {
 			$this->application_id = '';
 		}
 
-		if ( ! $this->access_token || ! $this->application_id) {
+		if ( ! $this->access_token && ! $this->application_id) {
 			throw new Exception('Missing access token and application parameters');
 		}
 
