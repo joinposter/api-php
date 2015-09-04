@@ -113,6 +113,36 @@ class PosterAPICore {
 		exit;
 	}
 
+	public function get_outh_token($account_name, $code) {
+
+		if ( ! $this->application_id) {
+			throw new Exception('Missing application parameters');
+		}
+
+		$this->set_account_name($account_name);
+
+		$request_url = $this->get_api_url() . 'auth/access_token';
+
+		$post_params = array(
+			'client_id' => $this->application_id,
+			'client_secret' => $this->application_secret,
+			'grant_type' => 'authorization_code',
+			'redirect_uri' => $this->redirect_uri,
+			'code' => $code,
+		); 
+
+		$response = $this->send_request($request_url, 'post', $post_params);
+		$response = json_decode($response);
+
+		if ( ! $response->access_token) {
+			throw new Exception('Authorization fail');
+		}
+
+		$this->set_access_token($response->access_token);
+
+    	return $response->access_token;
+	}
+
     public function __call($name, $arguments) {
 
     	if ( ! $this->access_token) {
