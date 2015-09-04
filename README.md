@@ -22,8 +22,7 @@ echo '<pre>';
 var_dump(PosterAPI::dash_getAnalytics($params));
 echo '</pre>';
 ```
-
-Example of using outh
+Example of OAuth using
 -------------
 
 ```php
@@ -51,18 +50,18 @@ if ( ! $access_token) {
 	if (isset ($_GET['code']) && $_GET['code'] != '') {
 
 		$account_name = $_GET['account'];
-		$access_token = PosterAPI::get_outh_token($account_name, $_GET['code']);
+		$access_token = PosterAPI::get_oauth_token($account_name, $_GET['code']);
 
 	} else {
-		PosterAPI::start_outh();
+		PosterAPI::start_oauth();
 	}
 }
 
 $params = [];
 
 echo "<pre>";
-echo "account_name = " . var_export($account_name, true) . "\n"; 
-echo "access_token = " . var_export($access_token, true) . "\n\n"; 
+echo "account_name = " . $account_name . "\n"; 
+echo "access_token = " . $access_token . "\n\n"; 
 
 var_dump(PosterAPI::dash_getAnalytics($params));
 echo "</pre>";

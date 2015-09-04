@@ -93,7 +93,7 @@ class PosterAPICore {
 		$this->curl_ipresolve_supported = defined('CURLOPT_IPRESOLVE');
 	}
 
-	public function get_outh_url() {
+	public function get_oauth_url() {
 
 		if ( ! $this->application_id) {
 			throw new Exception('Missing application parameters');
@@ -108,12 +108,12 @@ class PosterAPICore {
 		return $this->get_api_url() . 'auth?' . $this->prepare_get_params($get_params);
 	}
 
-	public function start_outh() {
-		header('Location: ' . $this->get_outh_url());
+	public function start_oauth() {
+		header('Location: ' . $this->get_oauth_url());
 		exit;
 	}
 
-	public function get_outh_token($account_name, $code) {
+	public function get_oauth_token($account_name, $code) {
 
 		if ( ! $this->application_id) {
 			throw new Exception('Missing application parameters');
