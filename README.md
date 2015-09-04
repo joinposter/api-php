@@ -1,6 +1,6 @@
 # PosterAPI for PHP
 
-Example of using with access_token
+Example of using with only access_token
 -------------
 
 ```php
@@ -23,7 +23,7 @@ var_dump(PosterAPI::dash_getAnalytics($params));
 echo '</pre>';
 ```
 
-Example of using with outh
+Example of using outh
 -------------
 
 ```php
