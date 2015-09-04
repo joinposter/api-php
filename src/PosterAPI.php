@@ -53,9 +53,14 @@ class PosterAPICore {
 	public $base_api_url = 'https://joinposter.com/api/';
 	public $account_api_url = 'https://{account_name}.joinposter.com/api/';
 	public $user_agent = '';
+	public $response_format = 'json';
 
-	private $config_keys = array('application_id', 'application_secret', 'redirect_uri', 
-		'account_name', 'access_token', 'user_agent', 'base_api_url', 'account_api_url');
+	private $config_keys = array('application_id', 'application_secret', 'redirect_uri', 'account_name', 
+		'access_token', 'user_agent', 'base_api_url', 'account_api_url', 'response_format');
+
+	private $methods = array('get', 'create', 'update', 'add', 'edit', 'set', 'delete', 'change', 
+		'remove', 'close');
+
 
 	private $curl_ipresolve_supported;
 	private $last_request_http_code;
@@ -68,11 +73,11 @@ class PosterAPICore {
 			}
 		}
 
-		if (! $this->account_name) {
+		if ( ! $this->account_name) {
 			$this->access_token = '';
 		}
 
-		if (! $this->application_secret || ! $this->redirect_uri) {
+		if ( ! $this->application_secret || ! $this->redirect_uri) {
 			$this->application_id = '';
 		}
 
@@ -88,12 +93,92 @@ class PosterAPICore {
 		$this->curl_ipresolve_supported = defined('CURLOPT_IPRESOLVE');
 	}
 
+    public function __call($name, $arguments) {
+
+    	if ( ! $this->access_token) {
+			throw new Exception('Missing access token');
+    	}
+
+    	// second argument is value for response_format 
+    	if (isset($arguments[1])) {
+			$this->response_format = $arguments[1];
+    	}
+
+    	if ( ! in_array($this->response_format, array('xml', 'json'))) {
+			throw new Exception('Incorrect response format');
+    	}
+
+    	$name = explode('_', $name);
+
+    	if (count($name) != 2) {
+			throw new Exception('Incorrect api method name');
+    	}
+
+    	$request_api_method = implode('.', $name);
+
+    	$name = strtolower($name[1]);
+    	$api_method = '';
+    	foreach ($this->methods as $method) {
+    		$len = strlen($method);
+    		if (substr($name, 0, $len) == $method) {
+    			$api_method = $method;
+    		}
+    	}
+
+    	if ($api_method == '') {
+			throw new Exception('Incorrect api method');
+    	}
+
+    	$request_type = ($api_method == 'get')? 'get' : 'post';
+
+		$get_params = array(
+			'format' => $this->response_format,
+			'token' => $this->access_token
+		); 
+
+		if ($request_type == 'get') {
+			$get_params = array_merge($get_params, $arguments[0]);
+			$post_params = '';
+		} else {
+			$post_params = $arguments[0];
+		}
+
+		$request_url  = str_replace('{account_name}', $this->account_name, $this->account_api_url);
+		$request_url .= $request_api_method . '?' . $this->prepare_get_params($get_params);
+
+		$response = $this->send_request($request_url, $request_type, $post_params);
+
+		if ($this->response_format == 'json') {
+			$response = json_decode($response);
+		}
+
+    	return $response;
+    }
+
+	public function set_account_name($account_name) {
+		$this->account_name = $account_name;
+	}
+
+	public function set_response_format($response_format) {
+		$this->response_format = $response_format;
+	}
+
 	public function get_last_request_http_code() {
 		return $this->last_request_http_code;
 	}
 
-	private function send_request($url, $type = 'get', $params = '', $json = false)
-	{
+	private function prepare_get_params($params) {
+
+		$result = array();
+
+		foreach ($params as $key => $value) {
+			$result[] = $key . '=' . urlencode($value);
+		}
+
+		return implode('&', $result);
+	}
+
+	private function send_request($url, $type = 'get', $params = '', $json = false) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_VERBOSE, false);
@@ -128,5 +213,4 @@ class PosterAPICore {
 
 		return $result;
 	}
-
 }
