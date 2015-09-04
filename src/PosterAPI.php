@@ -38,7 +38,7 @@ class PosterAPI {
 
 
 class PosterAPICore {
-	const VERSION = "0.1";
+	const VERSION = "0.2";
 
 	// required without access_token
 	public $application_id = '';
@@ -93,10 +93,34 @@ class PosterAPICore {
 		$this->curl_ipresolve_supported = defined('CURLOPT_IPRESOLVE');
 	}
 
+	public function get_outh_url() {
+
+		if ( ! $this->application_id) {
+			throw new Exception('Missing application parameters');
+		}
+
+		$get_params = array(
+			'response_type' => 'code',
+			'client_id' => $this->application_id,
+			'redirect_uri' => $this->redirect_uri,
+		); 
+
+		return $this->get_api_url() . 'auth?' . $this->prepare_get_params($get_params);
+	}
+
+	public function start_outh() {
+		header('Location: ' . $this->get_outh_url());
+		exit;
+	}
+
     public function __call($name, $arguments) {
 
     	if ( ! $this->access_token) {
 			throw new Exception('Missing access token');
+    	}
+
+    	if ( ! $this->account_name) {
+			throw new Exception('Missing account name');
     	}
 
     	// second argument is value for response_format 
@@ -143,8 +167,9 @@ class PosterAPICore {
 			$post_params = $arguments[0];
 		}
 
-		$request_url  = str_replace('{account_name}', $this->account_name, $this->account_api_url);
-		$request_url .= $request_api_method . '?' . $this->prepare_get_params($get_params);
+		$request_url = $this->get_api_url() . 
+			$request_api_method . '?' . 
+			$this->prepare_get_params($get_params);
 
 		$response = $this->send_request($request_url, $request_type, $post_params);
 
@@ -155,12 +180,22 @@ class PosterAPICore {
     	return $response;
     }
 
+	public function set_access_token($access_token) {
+		$this->access_token = $access_token;
+	}
+
 	public function set_account_name($account_name) {
 		$this->account_name = $account_name;
 	}
 
 	public function set_response_format($response_format) {
 		$this->response_format = $response_format;
+	}
+
+	private function get_api_url() {
+		return ($this->account_name)? 
+			str_replace('{account_name}', $this->account_name, $this->account_api_url) :
+			$this->base_api_url;
 	}
 
 	public function get_last_request_http_code() {

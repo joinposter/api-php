@@ -1,4 +1,4 @@
-# posterapi-php-binding
+# PosterAPI for PHP
 
 Example of using with access_token
 -------------
