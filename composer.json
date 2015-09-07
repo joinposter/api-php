@@ -1,0 +1,23 @@
+{
+    "name": "poster/api-php-binding",
+    "type": "library",
+    "description": "PHP library for PosterAPI",
+    "keywords": ["Poster", "API"],
+    "homepage": "https://github.com/joinposter/posterapi-php-binding",
+    "authors": [
+        {
+            "name": "Poster",
+            "email": "contact@joinposter.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "PosterAPI": "src/"
+        }
+    }
+}

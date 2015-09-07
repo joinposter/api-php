@@ -1,4 +1,5 @@
 <?php
+namespace PosterAPI;
 /**
  * Singleton-style wrapper around PosterAPICore
  *
