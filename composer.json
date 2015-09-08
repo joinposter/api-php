@@ -1,5 +1,6 @@
 {
     "name": "poster/api-php-binding",
+    "version": "0.2",
     "type": "library",
     "description": "PHP library for PosterAPI",
     "keywords": ["Poster", "API"],
