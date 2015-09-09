@@ -192,11 +192,13 @@ class PosterAPICore {
 			'token' => $this->access_token
 		); 
 
+		$arguments = (isset($arguments[0]))? $arguments[0] : array();
+
 		if ($request_type == 'get') {
-			$get_params = array_merge($get_params, $arguments[0]);
+			$get_params = array_merge($get_params, $arguments);
 			$post_params = '';
 		} else {
-			$post_params = $arguments[0];
+			$post_params = $arguments;
 		}
 
 		$request_url = $this->get_api_url() . 
