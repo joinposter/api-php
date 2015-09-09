@@ -1,5 +1,6 @@
 <?php
-namespace PosterAPI;
+namespace poster\api_php_binding;
+
 /**
  * Singleton-style wrapper around PosterAPICore
  *
@@ -39,7 +40,7 @@ class PosterAPI {
 
 
 class PosterAPICore {
-	const VERSION = "0.2";
+	const VERSION = "0.2.1";
 
 	// required without access_token
 	public $application_id = '';
@@ -83,11 +84,11 @@ class PosterAPICore {
 		}
 
 		if ( ! $this->access_token && ! $this->application_id) {
-			throw new Exception('Missing access token and application parameters');
+			throw new \Exception('Missing access token and application parameters');
 		}
 
 		if ( ! $this->user_agent) {
-			throw new Exception('Missing user agent');
+			throw new \Exception('Missing user agent');
 		}
 
 		// PHP 5.3.0
@@ -97,7 +98,7 @@ class PosterAPICore {
 	public function get_oauth_url() {
 
 		if ( ! $this->application_id) {
-			throw new Exception('Missing application parameters');
+			throw new \Exception('Missing application parameters');
 		}
 
 		$get_params = array(
@@ -117,7 +118,7 @@ class PosterAPICore {
 	public function get_oauth_token($account_name, $code) {
 
 		if ( ! $this->application_id) {
-			throw new Exception('Missing application parameters');
+			throw new \Exception('Missing application parameters');
 		}
 
 		$this->set_account_name($account_name);
@@ -135,8 +136,8 @@ class PosterAPICore {
 		$response = $this->send_request($request_url, 'post', $post_params);
 		$response = json_decode($response);
 
-		if ( ! $response->access_token) {
-			throw new Exception('Authorization fail');
+		if ( ! isset($response->access_token) || ! $response->access_token) {
+			throw new \Exception('Authorization fail');
 		}
 
 		$this->set_access_token($response->access_token);
@@ -147,11 +148,11 @@ class PosterAPICore {
     public function __call($name, $arguments) {
 
     	if ( ! $this->access_token) {
-			throw new Exception('Missing access token');
+			throw new \Exception('Missing access token');
     	}
 
     	if ( ! $this->account_name) {
-			throw new Exception('Missing account name');
+			throw new \Exception('Missing account name');
     	}
 
     	// second argument is value for response_format 
@@ -160,13 +161,13 @@ class PosterAPICore {
     	}
 
     	if ( ! in_array($this->response_format, array('xml', 'json'))) {
-			throw new Exception('Incorrect response format');
+			throw new \Exception('Incorrect response format');
     	}
 
     	$name = explode('_', $name);
 
     	if (count($name) != 2) {
-			throw new Exception('Incorrect api method name');
+			throw new \Exception('Incorrect api method name');
     	}
 
     	$request_api_method = implode('.', $name);
@@ -181,7 +182,7 @@ class PosterAPICore {
     	}
 
     	if ($api_method == '') {
-			throw new Exception('Incorrect api method');
+			throw new \Exception('Incorrect api method');
     	}
 
     	$request_type = ($api_method == 'get')? 'get' : 'post';
