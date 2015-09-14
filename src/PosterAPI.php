@@ -40,7 +40,7 @@ class PosterAPI {
 
 
 class PosterAPICore {
-	const VERSION = "0.2.1";
+	const VERSION = "0.2.2";
 
 	// required without access_token
 	public $application_id = '';
@@ -56,6 +56,7 @@ class PosterAPICore {
 	public $account_api_url = 'https://{account_name}.joinposter.com/api/';
 	public $user_agent = '';
 	public $response_format = 'json';
+	public $need_sign = false;
 
 	private $config_keys = array('application_id', 'application_secret', 'redirect_uri', 'account_name', 
 		'access_token', 'user_agent', 'base_api_url', 'account_api_url', 'response_format');
@@ -145,15 +146,32 @@ class PosterAPICore {
     	return $response->access_token;
 	}
 
+	/**
+	 *  List of arguments:
+	 *  0 — base arguments for api-request
+	 *  1 — value for response_format, by default is json
+	 *  2 — value for need_sign, by default is false. In this case, the value of access_token will ignore on server 
+	 */
     public function __call($name, $arguments) {
 
-    	if ( ! $this->access_token) {
+    	// third argument is value for need_sign 
+    	if (isset($arguments[2])) {
+			$this->need_sign = $arguments[2];
+    	}
+
+
+		if ($this->need_sign && ! $this->application_id) {
+			throw new \Exception('Missing application parameters');
+		}
+
+    	if ( ! $this->need_sign && ! $this->access_token) {
 			throw new \Exception('Missing access token');
     	}
 
-    	if ( ! $this->account_name) {
+    	if ( ! $this->need_sign &&  ! $this->account_name) {
 			throw new \Exception('Missing account name');
     	}
+
 
     	// second argument is value for response_format 
     	if (isset($arguments[1])) {
@@ -163,6 +181,7 @@ class PosterAPICore {
     	if ( ! in_array($this->response_format, array('xml', 'json'))) {
 			throw new \Exception('Incorrect response format');
     	}
+
 
     	$name = explode('_', $name);
 
@@ -187,12 +206,26 @@ class PosterAPICore {
 
     	$request_type = ($api_method == 'get')? 'get' : 'post';
 
+
 		$get_params = array(
 			'format' => $this->response_format,
-			'token' => $this->access_token
-		); 
+		);
+
+		if ($this->access_token) {
+			$get_params['token'] = $this->access_token;
+		}
 
 		$arguments = (isset($arguments[0]))? $arguments[0] : array();
+
+		if ($this->need_sign) {
+			$arguments['application_id'] = $this->application_id;
+			$arguments['sign_time'] = time();
+			$arguments['sign'] = md5(
+				$arguments['application_id'] . ';' . 
+				$arguments['sign_time'] . ';' . 
+				$this->application_secret
+			);
+		}
 
 		if ($request_type == 'get') {
 			$get_params = array_merge($get_params, $arguments);
