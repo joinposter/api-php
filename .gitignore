@@ -1,2 +1,6 @@
 # Composer installs dependencies here.
+
 vendor/
+
+.DS_Store
+.idea/
