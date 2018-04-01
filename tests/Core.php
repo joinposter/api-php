@@ -7,7 +7,7 @@ use poster\src\PosterApi;
 final class Core extends TestCase
 {
     public function test_MakeApiRequest() {
-        PosterAPI::init([
+        PosterApi::init([
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);
@@ -19,7 +19,7 @@ final class Core extends TestCase
 
     public function test_Settings_GetAllSettings()
     {
-        PosterAPI::init([
+        PosterApi::init([
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);
@@ -29,7 +29,7 @@ final class Core extends TestCase
     }
 
     public function test_GetOauthUrl() {
-        PosterAPI::init([
+        PosterApi::init([
             'application_id' => 'aaaaa',
             'application_secret' => 'poster-the-best',
             'redirect_uri' => 'http://redirect.com',
@@ -43,7 +43,7 @@ final class Core extends TestCase
     }
 
     public function test_Application_SetEntityExtras() {
-        PosterAPI::init([
+        PosterApi::init([
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);

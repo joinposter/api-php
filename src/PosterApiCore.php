@@ -5,7 +5,7 @@ namespace poster\src;
 
 class PosterApiCore
 {
-    const VERSION = "1.0.0";
+    const VERSION = "1.0.1";
 
     // required without access_token
     public $application_id;
