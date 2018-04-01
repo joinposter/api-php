@@ -1,4 +1,4 @@
-# PosterAPI for PHP
+# PosterAPI Library for PHP
 
 Example of using with only access_token
 -------------
