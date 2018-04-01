@@ -1,6 +1,6 @@
 <?php
 
-namespace PosterApiLibrary;
+namespace poster\src;
 
 
 /**
@@ -55,7 +55,7 @@ class PosterApi
         self::$instance = new PosterApiCore($config);
     }
 
-    public static function instance()
+    public static function singleton()
     {
         return self::$instance;
     }

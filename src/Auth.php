@@ -1,6 +1,6 @@
 <?php
 
-namespace PosterApiLibrary;
+namespace poster\src;
 
 
 class AuthAPI

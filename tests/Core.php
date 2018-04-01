@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PosterApiLibrary\PosterApi;
+use poster\src\PosterApi;
 
 
 final class Core extends TestCase
@@ -11,7 +11,8 @@ final class Core extends TestCase
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);
-        $result = (object)PosterAPI::instance()->makeApiRequest('settings.getAllSettings', 'get');
+
+        $result = (object)PosterAPI::singleton()->makeApiRequest('settings.getAllSettings', 'get');
 
         $this->assertEquals($result->response->COMPANY_ID, 'api-demo');
     }
@@ -22,7 +23,7 @@ final class Core extends TestCase
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);
-        $result = (object)PosterAPI::instance()->settings()->getAllSettings();
+        $result = (object)PosterAPI::singleton()->settings()->getAllSettings();
 
         $this->assertEquals($result->response->COMPANY_ID, 'api-demo');
     }
@@ -34,7 +35,7 @@ final class Core extends TestCase
             'redirect_uri' => 'http://redirect.com',
         ]);
 
-        $oAuthUrl = PosterAPI::instance()->auth()->getOauthUrl();
+        $oAuthUrl = PosterAPI::singleton()->auth()->getOauthUrl();
         $this->assertEquals(
             "https://joinposter.com/api/auth?response_type=code&client_id=aaaaa&redirect_uri=http%3A%2F%2Fredirect.com",
             $oAuthUrl
@@ -46,7 +47,7 @@ final class Core extends TestCase
             'account_name' => 'api-demo',
             'access_token' => '4164553abf6a031302898da7800b59fb',
         ]);
-        $result = (object)PosterAPI::instance()->application()->setEntityExtras([
+        $result = (object)PosterAPI::singleton()->application()->setEntityExtras([
             'entity_type' => 'settings',
             'extras' => [
                 'param' => 'value'

@@ -1,11 +1,11 @@
 <?php
 
-namespace PosterApiLibrary;
+namespace poster\src;
 
 
 class DashAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -230,7 +230,7 @@ class DashAPI
 
 class MenuAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -963,7 +963,7 @@ class MenuAPI
 
 class StorageAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -1504,7 +1504,7 @@ class StorageAPI
 
 class ClientsAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -1775,7 +1775,7 @@ class ClientsAPI
 
 class TransactionsAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2027,7 +2027,7 @@ class TransactionsAPI
 
 class IncomingOrdersAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2232,7 +2232,7 @@ class IncomingOrdersAPI
 
 class SpotsAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2275,7 +2275,7 @@ class SpotsAPI
 
 class FinanceAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2693,7 +2693,7 @@ class FinanceAPI
 
 class AccessAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2853,7 +2853,7 @@ class AccessAPI
 
 class PaymentsAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2903,7 +2903,7 @@ class PaymentsAPI
 
 class FranchiseAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -2932,7 +2932,7 @@ class FranchiseAPI
 
 class SettingsAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {
@@ -3061,7 +3061,7 @@ class SettingsAPI
 
 class ApplicationAPI
 {
-    public $api;
+    private $api;
 
     public function __construct(PosterApiCore $params)
     {

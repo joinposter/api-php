@@ -2,7 +2,7 @@
     "name": "poster/poster-api",
     "description": "PHP library which makes Poster API using smooth as glass",
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.6"
