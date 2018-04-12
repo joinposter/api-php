@@ -1,4 +1,4 @@
-# PosterAPI Library for PHP
+# PosterApi Library for PHP
 
 PHP library which makes Poster API using smooth as glass. 
 You can use suggestions to api methods names and don\`t have to worry about request type.
@@ -14,23 +14,27 @@ composer require poster/api
 
 ### Example of making API calls 
 
+It's convenient to use singleton class `PosterApi`. 
+All you need to is initialize class with user credentials and then you can call Poster API methods anywhere in your project   
+
+
 ```php
 <?php
 
 use poster\src\PosterApi;
 
 // Setting up account and token for requests 
-PosterAPI::init([
+PosterApi::init([
     'account_name' => 'demo',
     'access_token' => '4164553abf6a031302898da7800b59fb',
 ]);
 
 // Reading settings
-$result = (object)PosterAPI::singleton()->settings()->getAllSettings(); 
+$result = (object)PosterApi::settings()->getAllSettings(); 
 var_dump($result);
 
 // Setting up extras for account 
-$result = (object)PosterAPI::singleton()->application()->setEntityExtras([
+$result = (object)PosterApi::application()->setEntityExtras([
     'entity_type' => 'settings',
     'extras' => [
         'synced' => true
@@ -51,13 +55,13 @@ var_dump($result);
 
 use poster\src\PosterApi;
 
-PosterAPI::init([
+PosterApi::init([
     'application_id' => 1, // Your application id (client_id) 
     'application_secret' => '1362900b6c441dd0f219bd0974c7e2b8', // secret
     'redirect_uri' => 'http://example.com/poster/auth',
 ]);
 
-$oAuthUrl = PosterApi::singleton()->auth()->getOauthUrl();
+$oAuthUrl = PosterApi::auth()->getOauthUrl();
 
 // Redirect user to this url to start authorization
 http_redirect($oAuthUrl);
@@ -71,7 +75,7 @@ http_redirect($oAuthUrl);
 
 use poster\src\PosterApi;
 
-$result = (object)PosterApi::singleton()->auth()->getOauthToken($_GET['account'], $_GET['code']);
+$result = (object)PosterApi::auth()->getOauthToken($_GET['account'], $_GET['code']);
 
 if (empty($result->access_token)) {
     echo "Poster auth error";
@@ -80,7 +84,6 @@ if (empty($result->access_token)) {
 }
 
 // In case of successful auth, token and account name would be placed into config automatically
-$settings = PosterApi::singleton()->settings()->getAllSettings();
+$settings = PosterApi::settings()->getAllSettings();
 var_dump($settings);
 ```
-

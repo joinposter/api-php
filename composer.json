@@ -1,7 +1,7 @@
 {
   "name": "poster/api",
   "description": "PHP library which makes Poster API using smooth as glass",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "require": {
     "php": ">=5.4.0"
   },
