@@ -247,6 +247,11 @@ class PosterApiCore
         return $this->account_name;
     }
 
+    public function setAccountName($accountName)
+    {
+        $this->account_name = $accountName;
+    }
+
     public function setResponseFormat($responseFormat)
     {
         $this->response_format = $responseFormat;
