@@ -143,6 +143,16 @@ class PosterApi
         self::singleton()->setAccountName($accountName);
     }
 
+    public static function getAccessToken()
+    {
+        self::singleton()->getAccessToken();
+    }
+
+    public static function getAccountName()
+    {
+        self::singleton()->getAccountName();
+    }
+
     public static function setResponseFormat($responseFormat)
     {
         self::singleton()->setResponseFormat($responseFormat);
@@ -173,9 +183,9 @@ class PosterApi
         return self::singleton()->getApiUrl();
     }
 
-    public static function sendRequest($url, $type = 'get', $params = '', $json = false)
+    public static function sendRequest($url, $type = 'get', $params = '', $json = false, $headers = [])
     {
-        return self::singleton()->sendRequest($url, $type, $params, $json);
+        return self::singleton()->sendRequest($url, $type, $params, $json, $headers);
     }
 
     public static function makeApiRequest($method, $type = 'get', $params = '', $needSign = false)

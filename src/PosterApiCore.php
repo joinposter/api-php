@@ -75,7 +75,7 @@ class PosterApiCore
      * @param bool $json
      * @return mixed
      */
-    public function sendRequest($url, $type = 'get', $params = '', $json = false)
+    public function sendRequest($url, $type = 'get', $params = '', $json = false, $headers = [])
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -86,16 +86,20 @@ class PosterApiCore
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
 
+        if (count($headers)) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+
         if ($type == 'post') {
             curl_setopt($ch, CURLOPT_POST, true);
 
             if ($json) {
                 $params = json_encode($params);
 
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($headers, [
                     'Content-Type: application/json',
                     'Content-Length: ' . strlen($params)
-                ]);
+                ]));
             }
             curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         }
@@ -233,9 +237,14 @@ class PosterApiCore
         $this->access_token = $accessToken;
     }
 
-    public function setAccountName($accountName)
+    public function getAccessToken()
     {
-        $this->account_name = $accountName;
+        return $this->access_token;
+    }
+
+    public function getAccountName()
+    {
+        return $this->account_name;
     }
 
     public function setResponseFormat($responseFormat)
