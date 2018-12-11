@@ -108,7 +108,7 @@ class PosterApiCore
             curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         }
 
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60 * 20);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->user_agent);
         $result = curl_exec($ch);
         $this->last_request_http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

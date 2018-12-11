@@ -145,12 +145,12 @@ class PosterApi
 
     public static function getAccessToken()
     {
-        self::singleton()->getAccessToken();
+        return self::singleton()->getAccessToken();
     }
 
     public static function getAccountName()
     {
-        self::singleton()->getAccountName();
+        return self::singleton()->getAccountName();
     }
 
     public static function setResponseFormat($responseFormat)
