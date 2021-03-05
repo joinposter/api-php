@@ -2270,6 +2270,19 @@ class SpotsAPI
         return $this->api->makeApiRequest('spots.getTableHallTables', 'get', $params);
     }
 
+    /**
+     * spots.getSpotsWorkingTime Время работы заведений
+     *
+     * @param array $params [
+     * @var mixed $spot_id Id заведения, по умолчанию не передаётся
+     * ]
+     * @return mixed
+     */
+    public function getSpotsWorkingTime($params = array())
+    {
+        return $this->api->makeApiRequest('spots.getSpotsWorkingTime', 'get', $params);
+    }
+
 }
 
 
