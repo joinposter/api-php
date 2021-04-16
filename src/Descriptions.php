@@ -3098,4 +3098,18 @@ class ApplicationAPI
         return $this->api->makeApiRequest('application.setEntityExtras', 'post', $params);
     }
 
+    /**
+     * application.changTariff: Изменение тарифа приложения
+     * @link https://dev.joinposter.com/docs/v3/web/application/changeTariff
+     * 
+     * @param array $params [
+     * @var string $tariff_key Обязательный параметр, код тарифа, на который мы хотим поменять
+     * ]
+     *
+     * @return object $response — response from API
+     */
+    public function changeTariff($params = array())
+    {
+        return $this->api->makeApiRequest('application.changTariff', 'post', $params);
+    }
 }
